@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="一个克制的中文文字编辑器：删去套话，保留事实和你的语气。支持规则演示和可选的服务端模型润色。">
+  <meta name="theme-color" content="#f6f3ec">
+  <title>说人话 · Humanizer-zh</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <div class="page">
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="说人话首页"><span class="brand-mark">说</span><span>说人话<span class="brand-en">HUMANIZER ZH</span></span></a>
+      <nav aria-label="主导航"><a href="#editor">文字工作台</a><a href="#about">关于这个工具 <span aria-hidden="true">↗</span></a></nav>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow"><span class="orange-dot"></span> 少一点套话，多一点你。</p>
+          <h1 id="page-title">你的意思，<br>值得<span class="handline">好好说。</span></h1>
+          <p class="intro-copy">把绕弯的句子拉直，把空泛的表达落地。<br>保留事实、立场，还有你自己的声音。</p>
+        </div>
+        <aside class="editor-note" aria-label="编辑原则"><span class="note-number">01 / 编辑手记</span><p>好的文字，<br>不需要那么多<br><em>「值得注意的是」。</em></p><span class="note-footer">清楚 · 自然 · 有分寸</span></aside>
+      </section>
+
+      <section id="editor" class="workbench" aria-label="文字润色工作台">
+        <div class="toolbar">
+          <fieldset class="tone-group"><legend>想怎么说</legend><label><input type="radio" name="tone" value="natural" checked><span>自然表达</span></label><label><input type="radio" name="tone" value="concise"><span>简洁直接</span></label><label><input type="radio" name="tone" value="professional"><span>专业克制</span></label></fieldset>
+          <div class="engine-control"><label for="engine">处理方式</label><select id="engine"><option value="demo">本地规则演示</option value="model" disabled>模型润色（未配置）</option></select></div>
+        </div>
+
+        <div class="editor-grid">
+          <div class="editor-pane source-pane">
+            <div class="pane-header"><h2><span class="pane-index">01</span> 原文</h2><div class="pane-actions"><button id="example" class="text-button" type="button">试一段示例 <span aria-hidden="true">↙</span></button><button id="clear" class="text-button muted" type="button">清空</button></div></div>
+            <label class="sr-only" for="source">待润色的原文，最多 6000 字</label><textarea id="source" maxlength="6000" placeholder="把想说的话放在这里。&#10;&#10;一段工作汇报、一篇文章，或者一封还没想好怎么写的邮件。" spellcheck="false"></textarea>
+            <div class="pane-footer"><span>先把意思写下来，剩下的慢慢来。</span><span id="source-count">0 / 6000</span></div>
+          </div>
+          <div class="editor-pane result-pane">
+            <div class="pane-header"><h2><span class="pane-index">02</span> 润色后 <span id="result-badge" class="small-tag" hidden>规则演示</span></h2><button id="copy" class="text-button" type="button" disabled><span aria-hidden="true">▣</span> 复制全文</button></div>
+            <div id="empty-result" class="empty-result"><span class="empty-icon" aria-hidden="true">“</span><p>让文字，轻一点。</p><span>润色后的内容会出现在这里</span></div>
+            <div id="result" class="result-text" aria-label="润色结果" tabindex="0" hidden></div>
+            <div class="pane-footer"><span id="result-caption">你的观点，你来定稿。</span><span id="result-count">— 字</span></div>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <div class="mode-note"><span class="status-dot" aria-hidden="true"></span><p id="privacy-note">规则演示由当前应用服务器处理，不调用外部模型。正文不写入本应用存储。</p></div>
+          <button id="rewrite" class="primary-button" type="button" disabled><span id="rewrite-label">开始润色</span><span aria-hidden="true">↗</span></button>
+        </div>
+        <label id="consent-row" class="consent-row" hidden><input id="consent" type="checkbox"><span id="consent-text">我同意将原文发送至配置的模型服务，并了解其可能保存请求。</span></label>
+        <div class="feedback-row"><p id="status" role="status" aria-live="polite">规则演示只做有限的词句替换；完整语义改写需要配置模型。</p><span class="shortcut">⌘ / Ctrl + Enter</span></div>
+        <div id="changes-panel" class="changes-panel" hidden><h3>这次改了哪里</h3><ul id="changes"></ul><p>修改可能不适合所有上下文，请逐句核对。</p></div>
+      </section>
+
+      <section id="about" class="principles" aria-label="工具说明"><article><span class="principle-number">01</span><h2>把事实留下</h2><p>人名、数字、来源和立场，都应以原文为准。润色结果仍需你核对。</p></article><article><span class="principle-number">02</span><h2>让表达松一口气</h2><p>少一点过度强调和公式化连接，多一点直接、清楚的表达。</p></article><article><span class="principle-number">03</span><h2>只关心文字本身</h2><p>这是文字编辑工具，不提供 AI 来源判断，也不保证任何检测结果。</p></article></section>
+    </main>
+
+    <footer><span>说人话 <span class="footer-dot">·</span> 把声音还给写字的人</span><span>独立 Web 应用 · 灵感来自 <a href="https://github.com/op7418/Humanizer-zh" target="_blank" rel="noopener noreferrer">歸藏 / Humanizer-zh ↗</a></span></footer>
+  </div>
+</body>
+</html>
